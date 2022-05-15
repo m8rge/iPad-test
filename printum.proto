@@ -1,7 +1,49 @@
 syntax = "proto3";
 
 service Backend {
-    
+    rpc GetTasks(GetTasksRequest) GetTasksResponse
+    rpc PutSnmp(PutSnmpRequest) PutSnmpResponse
 }
 
-message 
+message GetTasksRequest {
+}
+
+message GetTasksResponse {
+    repeated Task tasks = 1;
+    repeated Snmp3AuthData authData = 2;
+}
+
+message PutSnmpRequest {
+    // todo: timestamp?
+    string hostname;
+    string version;
+    // todo: labels?
+    repeated SnmpData snmpData;
+}
+
+message PutSnmpResponse {
+}
+
+message Task {
+    string ipMask = 1;
+    repeated oid = 2;
+    // todo: scanInterval?
+    // todo: EnableDiffs?
+}
+
+message Snmp3AuthData {
+    string ipMask = 1;
+    string login = 2;
+    string password = 3;
+}
+
+message SnmpData {
+    string ip = 1;
+    repeated SnmpRecord records = 2;
+}
+
+message SnmpRecord {
+    string oid = 1;
+    int32 type = 2;
+    string value = 3;
+}
