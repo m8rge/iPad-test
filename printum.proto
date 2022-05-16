@@ -11,27 +11,31 @@ message GetTasksRequest {
 message GetTasksResponse {
     repeated Task tasks = 1;
     repeated Snmp3AuthData authData = 2;
+    // todo: scanInterval? Будем настраивать scanInterval с сервера?
+    // todo: enableDiffs? Будем использовать диффы?
 }
 
 message PutSnmpRequest {
-    // todo: timestamp?
+    string agentVersion;
     string hostname;
-    string version;
-    // todo: labels?
     repeated SnmpData snmpData;
+    // todo: timestamp? нужно время текущее?
+    // todo: labels? оттуда что-то интересное используется?
 }
 
 message PutSnmpResponse {
+    // todo: error? может быть?
 }
 
 message Task {
+    // подсеть/диапазон/маска
     string ipMask = 1;
+    // кастомные oid для опроса. Если массив пустой - будет использоваться стандартный список oid, зашитый в агента.
     repeated oid = 2;
-    // todo: scanInterval?
-    // todo: EnableDiffs?
 }
 
 message Snmp3AuthData {
+    // подсеть/диапазон/маска
     string ipMask = 1;
     string login = 2;
     string password = 3;
@@ -40,6 +44,7 @@ message Snmp3AuthData {
 message SnmpData {
     string ip = 1;
     repeated SnmpRecord records = 2;
+    string error = 3;
 }
 
 message SnmpRecord {
